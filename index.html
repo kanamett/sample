@@ -40,12 +40,12 @@ $(function(){
  */
 var _accelerometer;
 function watchStartAccelerometer(){
-$('#message').heml("watchStartAccelerometer");
+$('#message').html("watchStartAccelerometer");
 var options = { frequency: 1000 }; 
      _accelerometer = navigator.accelerometer.watchAcceleration(onSuccess, onError,options);
 
     function onSuccess(acceleration) { 
-$('#message').heml("onSuccess");
+$('#message').html("onSuccess");
             $('#accelerometer_watch_status').html(
                       'x:' + acceleration.x + "<br>" +
                       'y:' + acceleration.y + "<br>" +
@@ -63,7 +63,7 @@ $('#message').heml("onSuccess");
             }
         }
     function onError() { 
-$('#message').heml("onError");
+$('#message').html("onError");
         }
 }
 /*
