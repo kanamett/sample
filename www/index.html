@@ -17,8 +17,8 @@
             <div id="accelerometer_watch_status"></div>
             <canvas id="c1"></canvas>
 
-            <a id="accelerometer_clear" href="#" data-role="button">終了</a>
 <!--
+            <a id="accelerometer_clear" href="#" data-role="button">終了</a>
             <a id="accelerometer_now" href="#" data-role="button">今</a>
 -->
 			<div id="message">message</span>
@@ -34,13 +34,14 @@ var _z;
 var orgx = 70;
 var orgy = 70;
 var orgz = 30;
+var _watch = false;
 
 $(function(){
 	document.addEventListener("deviceready",
 		function(){
-			$('#accelerometer_watch').attr('href', 'javascript:watchStartAccelerometer()');
-			$('#accelerometer_clear').attr('href', 'javascript:watchStopAccelerometer()');
-			$('#accelerometer_now').attr('href', 'javascript:watchNowAccelerometer()');
+			$('#accelerometer_watch').attr('href', 'javascript:watchAccelerometer()');
+//			$('#accelerometer_clear').attr('href', 'javascript:watchStopAccelerometer()');
+//			$('#accelerometer_now').attr('href', 'javascript:watchNowAccelerometer()');
 		},		false);
 $( '#c1' ).get( 0 ).width = $( window ).width();
 $( '#c1' ).get( 0 ).height = $( window ).height();
@@ -64,6 +65,16 @@ $( '#c1' ).get( 0 ).height = $( window ).height();
 //ctx.stroke();
 //	}
 })
+function watchAccelerometer() {
+	if (_watch) {
+		watchStopAccelerometer();
+		$('#accelerometer_watch').html('開始');
+	} else {
+		watchStartAccelerometer();
+		$('#accelerometer_watch').html('終了');
+	}
+	_watch = !_watch;
+}
 /*
  * 加速度センサー計測開始
  */
@@ -88,7 +99,7 @@ function onSuccessFirst(acceleration) {
 	draw(orgx, orgy, orgz);
 }
 function onSuccess(acceleration) { 
-	$('#message').html("onSuccess");
+//	$('#message').html("onSuccess");
 	$('#accelerometer_watch_status').html(
 	  'x:' + acceleration.x + "<br>" +
 	  'y:' + acceleration.y + "<br>" +
@@ -113,9 +124,10 @@ function onError() {
  * 加速度センサー計測終了
  */
 function watchStopAccelerometer(){
+	$('#message').html("watchStopAccelerometer");
 	 navigator.accelerometer.clearWatch(_accelerometer);
 	 $('#accelerometer_watch_status').html('');
-	 $('#accelerometer_watch_word').html('');
+//	 $('#accelerometer_watch_word').html('');
 }
 
 function draw(x, y, radius) {
