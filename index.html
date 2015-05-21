@@ -44,7 +44,7 @@ $(function(){
 var _accelerometer;
 function watchNowAccelerometer() {
 $('#message').html("watchNowAccelerometer");
-getCurrentAcceleration(onSuccess, onError);
+navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
 }
 function watchStartAccelerometer(){
 $('#message').html("watchStartAccelerometer");
