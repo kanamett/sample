@@ -12,14 +12,16 @@
 <body>
     <div data-role="page">
         <div data-role="content">
-            <a id="accelerometer_watch" href="#" data-role="button">計測開始</a>
+            <a id="accelerometer_watch" href="#" data-role="button">開始</a>
 
             <div id="accelerometer_watch_status"></div>
-            <canvas id="c1" style="width:100%;"></canvas>
+            <canvas id="c1"></canvas>
 
-            <a id="accelerometer_clear" href="#" data-role="button">計測終了</a>
+            <a id="accelerometer_clear" href="#" data-role="button">終了</a>
+<!--
             <a id="accelerometer_now" href="#" data-role="button">今</a>
-	<div id="message">message</span>
+-->
+			<div id="message">message</span>
         </div>
     </div>
 </body>
@@ -40,14 +42,15 @@ $(function(){
 			$('#accelerometer_clear').attr('href', 'javascript:watchStopAccelerometer()');
 			$('#accelerometer_now').attr('href', 'javascript:watchNowAccelerometer()');
 		},		false);
-
+$( '#c1' ).get( 0 ).width = $( window ).width();
+$( '#c1' ).get( 0 ).height = $( window ).height();
 	var canvas = document.getElementById('c1');
 	if (canvas.getContext) {
 		orgx = canvas.width / 2;
 		orgy = canvas.height / 2;
 		orgz = canvas.width / 4;
 	}
-//	draw(orgx, orgy, orgz);
+	draw(orgx, orgy, orgz);
 //	var canvas = document.getElementById('c1');
 //	if (canvas.getContext) {
 //		var ctx = canvas.getContext('2d');
@@ -101,7 +104,7 @@ function onSuccess(acceleration) {
 		}else{
 			 $('#accelerometer_watch_word').html("")
 	}
-	draw(orgx + (_x - acceleration.x) * 10, orgy + (_y - acceleration.y) * 10, orgz + (_z - acceleration.z) * 10);
+	draw(orgx + (_x - acceleration.x) * 100, orgy + (_y - acceleration.y) * 100, orgz + (_z - acceleration.z) * 100);
 }
 function onError() { 
 	$('#message').html("onError");
