@@ -4,8 +4,8 @@
 <title>PhoneGap Showcase</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8"/>
-<link rel="stylesheet" href="jquery.mobile-1.0.min.css" type="text/css" media="all">
-<link rel="stylesheet" href="jquery.mobile.structure-1.0.min.css" type="text/css" media="all">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" type="text/css" media="all">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" type="text/css" media="all">
 <STYLE type="text/css">
 <!--
 -->
@@ -17,18 +17,20 @@
             <h1>Accelerometer Showcase</h1>
         </div>
         <div data-role="content">
-            <a id="accelerometer_watch" href="#" data-role="button">Œv‘ªŠJn</a>
+            <a id="accelerometer_watch" href="#" data-role="button">è¨ˆæ¸¬é–‹å§‹</a>
             <div style="width:100%;height:150px;text-align:center;">
                 <div id="accelerometer_watch_word" style="line-height:150px;font-size:100px; "></div>
             </div>
             <div id="accelerometer_watch_status"></div>
-            <a id="accelerometer_clear" href="#" data-role="button">Œv‘ªI—¹</a>
+            <a id="accelerometer_clear" href="#" data-role="button">è¨ˆæ¸¬çµ‚äº†</a>
         </div>
     </div>
 </body>
-<script type="text/javascript" charset="utf-8" src="jquery-1.7.1.min.js"></script>
-<script type="text/javascript" charset="utf-8" src="jquery.mobile-1.0.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<!--
 <script type="text/javascript" charset="utf-8" src="phonegap-1.2.0.js"></script>
+-->
 <script type="text/javascript">
 $(function(){
     document.addEventListener("deviceready",
@@ -38,7 +40,7 @@ $(function(){
         },        false);
 })
 /*
- * ‰Á‘¬“xƒZƒ“ƒT[Œv‘ªŠJn
+ * åŠ é€Ÿåº¦ã‚»ãƒ³ã‚µãƒ¼è¨ˆæ¸¬é–‹å§‹
  */
 var _accelerometer;
 function watchStartAccelerometer(){
@@ -49,21 +51,21 @@ function watchStartAccelerometer(){
                       'x:' + acceleration.x + "<br>" +
                       'y:' + acceleration.y + "<br>" +
                       'z:' + acceleration.z + "<br>" +
-                      '“ú•t:' + new Date(acceleration.timestamp).toString());
+                      'æ—¥ä»˜:' + new Date(acceleration.timestamp).toString());
            
             if(Math.abs(acceleration.x)>9){
-                $('#accelerometer_watch_word').html("‰¡")
+                $('#accelerometer_watch_word').html("æ¨ª")
             }else if(Math.abs(acceleration.y)>9){
-                $('#accelerometer_watch_word').html("c")
+                $('#accelerometer_watch_word').html("ç¸¦")
             }else if(Math.abs(acceleration.z)>9){
-                $('#accelerometer_watch_word').html("…•½")
+                $('#accelerometer_watch_word').html("æ°´å¹³")
             }else{
                  $('#accelerometer_watch_word').html("")
             }
         },
         function(){
             // accelerometerError
-            alert('‰Á‘¬“xƒZƒ“ƒT[‚Å“à•”ƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½');
+            alert('åŠ é€Ÿåº¦ã‚»ãƒ³ã‚µãƒ¼ã§å†…éƒ¨ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸ');
         },
         {
             frequency : 1000,
@@ -71,7 +73,7 @@ function watchStartAccelerometer(){
     );
 }
 /*
- * ‰Á‘¬“xƒZƒ“ƒT[Œv‘ªI—¹
+ * åŠ é€Ÿåº¦ã‚»ãƒ³ã‚µãƒ¼è¨ˆæ¸¬çµ‚äº†
  */
 function watchStopAccelerometer(){
      navigator.accelerometer.clearWatch(_accelerometer);
