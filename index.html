@@ -1,46 +1,82 @@
-<!DOCTYPE html>
-<!--
-    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
-
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
+<!DOCTYPE HTML>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="msapplication-tap-highlight" content="no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>PhoneGap</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
+<head>
+<title>PhoneGap Showcase</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="jquery.mobile-1.0.min.css" type="text/css" media="all">
+<link rel="stylesheet" href="jquery.mobile.structure-1.0.min.css" type="text/css" media="all">
+<STYLE type="text/css">
+<!--
+-->
+</STYLE>
+</head>
+<body>
+    <div data-role="page">
+        <div data-role="header">
+            <h1>Accelerometer Showcase</h1>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-    </body>
+        <div data-role="content">
+            <a id="accelerometer_watch" href="#" data-role="button">計測開始</a>
+            <div style="width:100%;height:150px;text-align:center;">
+                <div id="accelerometer_watch_word" style="line-height:150px;font-size:100px; "></div>
+            </div>
+            <div id="accelerometer_watch_status"></div>
+            <a id="accelerometer_clear" href="#" data-role="button">計測終了</a>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" charset="utf-8" src="jquery-1.7.1.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="jquery.mobile-1.0.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="phonegap-1.2.0.js"></script>
+<script type="text/javascript">
+$(function(){
+    document.addEventListener("deviceready",
+        function(){
+            $('#accelerometer_watch').attr('href', 'javascript:watchStartAccelerometer()');
+            $('#accelerometer_clear').attr('href', 'javascript:watchStopAccelerometer()');
+        },        false);
+})
+/*
+ * 加速度センサー計測開始
+ */
+var _accelerometer;
+function watchStartAccelerometer(){
+     _accelerometer = navigator.accelerometer.watchAcceleration(
+        function(acceleration){
+            // accelerometerSuccess
+            $('#accelerometer_watch_status').html(
+                      'x:' + acceleration.x + "<br>" +
+                      'y:' + acceleration.y + "<br>" +
+                      'z:' + acceleration.z + "<br>" +
+                      '日付:' + new Date(acceleration.timestamp).toString());
+           
+            if(Math.abs(acceleration.x)>9){
+                $('#accelerometer_watch_word').html("横")
+            }else if(Math.abs(acceleration.y)>9){
+                $('#accelerometer_watch_word').html("縦")
+            }else if(Math.abs(acceleration.z)>9){
+                $('#accelerometer_watch_word').html("水平")
+            }else{
+                 $('#accelerometer_watch_word').html("")
+            }
+        },
+        function(){
+            // accelerometerError
+            alert('加速度センサーで内部エラーが発生しました');
+        },
+        {
+            frequency : 1000,
+        }
+    );
+}
+/*
+ * 加速度センサー計測終了
+ */
+function watchStopAccelerometer(){
+     navigator.accelerometer.clearWatch(_accelerometer);
+     $('#accelerometer_watch_status').html('');
+     $('#accelerometer_watch_word').html('');
+}
+</script>
 </html>
