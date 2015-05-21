@@ -21,7 +21,7 @@
             </div>
 
             <div id="accelerometer_watch_status"></div>
-            <canvas id="c1" width="140" height="140"></canvas>
+            <canvas id="c1" width="100%" height="100%"></canvas>
 
             <a id="accelerometer_clear" href="#" data-role="button">計測終了</a>
             <a id="accelerometer_now" href="#" data-role="button">今</a>
@@ -40,17 +40,17 @@ $(function(){
 			$('#accelerometer_now').attr('href', 'javascript:watchNowAccelerometer()');
 		},		false);
 
-	var canvas = document.getElementById('c1');
-	if (canvas.getContext) {
-		var ctx = canvas.getContext('2d');
-		ctx.fillStyle = "rgb(255, 0, 0)";
-ctx.strokeStyle = "rgb(0, 0, 0)";
-ctx.beginPath();
-ctx.moveTo( 20, 20.5 );
-ctx.lineTo( 320, 20.5 );
-ctx.moveTo( 20.5, 30 );
-ctx.lineTo( 20.5, 300 );
-ctx.stroke();
+//	var canvas = document.getElementById('c1');
+//	if (canvas.getContext) {
+//		var ctx = canvas.getContext('2d');
+//		ctx.fillStyle = "rgb(255, 0, 0)";
+//ctx.strokeStyle = "rgb(0, 0, 0)";
+//ctx.beginPath();
+//ctx.moveTo( 20, 20.5 );
+//ctx.lineTo( 320, 20.5 );
+//ctx.moveTo( 20.5, 30 );
+//ctx.lineTo( 20.5, 300 );
+//ctx.stroke();
 	}
 })
 /*
@@ -60,9 +60,9 @@ var _accelerometer;
 var _x;
 var _y;
 var _z;
-var orgx = 70;
+var orgx = 100;
 var orgy = 70;
-var orgz = 60;
+var orgz = 30;
 function watchNowAccelerometer() {
 	$('#message').html("watchNowAccelerometer");
 	try{
@@ -119,6 +119,7 @@ function draw(x, y, radius) {
 
   if (canvas.getContext) {
     var ctx = canvas.getContext('2d');
+ctx.clearRect(0,0,canvas.width,canvas.height);
 
         ctx.beginPath();
 //        var x              = 25 + j * 50;             // x 座標
