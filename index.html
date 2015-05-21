@@ -23,6 +23,7 @@
             <a id="accelerometer_clear" href="#" data-role="button">計測終了</a>
         </div>
     </div>
+	<span id="message">message</span>
 </body>
 
 <script type="text/javascript">
@@ -39,12 +40,12 @@ $(function(){
  */
 var _accelerometer;
 function watchStartAccelerometer(){
-alert('watchStartAccelerometer');
+$('#message').heml("watchStartAccelerometer");
 var options = { frequency: 1000 }; 
      _accelerometer = navigator.accelerometer.watchAcceleration(onSuccess, onError,options);
 
     function onSuccess(acceleration) { 
-alert('accelerometerSuccess');
+$('#message').heml("onSuccess");
             $('#accelerometer_watch_status').html(
                       'x:' + acceleration.x + "<br>" +
                       'y:' + acceleration.y + "<br>" +
@@ -62,8 +63,7 @@ alert('accelerometerSuccess');
             }
         }
     function onError() { 
-            // accelerometerError
-            alert('加速度センサーで内部エラーが発生しました');
+$('#message').heml("onError");
         }
 }
 /*
