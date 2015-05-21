@@ -4,12 +4,10 @@
 <title>PhoneGap Showcase</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8"/>
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" type="text/css" media="all">
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" type="text/css" media="all">
-<STYLE type="text/css">
-<!--
--->
-</STYLE>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
+<script src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
 </head>
 <body>
     <div data-role="page">
@@ -26,11 +24,9 @@
         </div>
     </div>
 </body>
-<script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" charset="utf-8" src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
 
 <script type="text/javascript">
+
 $(function(){
     document.addEventListener("deviceready",
         function(){
@@ -44,9 +40,10 @@ $(function(){
 var _accelerometer;
 function watchStartAccelerometer(){
 alert('watchStartAccelerometer');
-     _accelerometer = navigator.accelerometer.watchAcceleration(
-        function(acceleration){
-            // accelerometerSuccess
+var options = { frequency: 1000 }; 
+     _accelerometer = navigator.accelerometer.watchAcceleration(onSuccess, onError,options);
+
+    function onSuccess(acceleration) { 
 alert('accelerometerSuccess');
             $('#accelerometer_watch_status').html(
                       'x:' + acceleration.x + "<br>" +
@@ -63,15 +60,11 @@ alert('accelerometerSuccess');
             }else{
                  $('#accelerometer_watch_word').html("")
             }
-        },
-        function(){
+        }
+    function onError() { 
             // accelerometerError
             alert('加速度センサーで内部エラーが発生しました');
-        },
-        {
-            frequency : 1000,
         }
-    );
 }
 /*
  * 加速度センサー計測終了
