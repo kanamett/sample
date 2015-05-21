@@ -31,59 +31,58 @@
 <script type="text/javascript">
 
 $(function(){
-    document.addEventListener("deviceready",
-        function(){
-            $('#accelerometer_watch').attr('href', 'javascript:watchStartAccelerometer()');
-            $('#accelerometer_clear').attr('href', 'javascript:watchStopAccelerometer()');
-            $('#accelerometer_now').attr('href', 'javascript:watchNowAccelerometer()');
-        },        false);
+	document.addEventListener("deviceready",
+		function(){
+			$('#accelerometer_watch').attr('href', 'javascript:watchStartAccelerometer()');
+			$('#accelerometer_clear').attr('href', 'javascript:watchStopAccelerometer()');
+			$('#accelerometer_now').attr('href', 'javascript:watchNowAccelerometer()');
+		},		false);
 })
 /*
  * 加速度センサー計測開始
  */
 var _accelerometer;
 function watchNowAccelerometer() {
-$('#message').html("watchNowAccelerometer");
-try{
-navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
-}catch( e ){
-alert( e );
-}
+	$('#message').html("watchNowAccelerometer");
+	try{
+		navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
+	}catch( e ){
+		alert( e );
+	}
 }
 function watchStartAccelerometer(){
-$('#message').html("watchStartAccelerometer");
-var options = { frequency: 1000 }; 
-     _accelerometer = navigator.accelerometer.watchAcceleration(onSuccess, onError,options);
-
-    function onSuccess(acceleration) { 
-$('#message').html("onSuccess");
-            $('#accelerometer_watch_status').html(
-                      'x:' + acceleration.x + "<br>" +
-                      'y:' + acceleration.y + "<br>" +
-                      'z:' + acceleration.z + "<br>" +
-                      '日付:' + new Date(acceleration.timestamp).toString());
-           
-            if(Math.abs(acceleration.x)>9){
-                $('#accelerometer_watch_word').html("横")
-            }else if(Math.abs(acceleration.y)>9){
-                $('#accelerometer_watch_word').html("縦")
-            }else if(Math.abs(acceleration.z)>9){
-                $('#accelerometer_watch_word').html("水平")
-            }else{
-                 $('#accelerometer_watch_word').html("")
-            }
-        }
-    function onError() { 
-$('#message').html("onError");
-        }
+	$('#message').html("watchStartAccelerometer");
+	var options = { frequency: 1000 }; 
+	_accelerometer = navigator.accelerometer.watchAcceleration(onSuccess, onError,options);
+}
+function onSuccess(acceleration) { 
+	$('#message').html("onSuccess");
+	$('#accelerometer_watch_status').html(
+	  'x:' + acceleration.x + "<br>" +
+	  'y:' + acceleration.y + "<br>" +
+	  'z:' + acceleration.z + "<br>" +
+	  '日付:' + new Date(acceleration.timestamp).toString());
+  
+		if(Math.abs(acceleration.x)>9){
+			$('#accelerometer_watch_word').html("横")
+		}else if(Math.abs(acceleration.y)>9){
+			$('#accelerometer_watch_word').html("縦")
+		}else if(Math.abs(acceleration.z)>9){
+			$('#accelerometer_watch_word').html("水平")
+		}else{
+			 $('#accelerometer_watch_word').html("")
+	}
+}
+function onError() { 
+	$('#message').html("onError");
 }
 /*
  * 加速度センサー計測終了
  */
 function watchStopAccelerometer(){
-     navigator.accelerometer.clearWatch(_accelerometer);
-     $('#accelerometer_watch_status').html('');
-     $('#accelerometer_watch_word').html('');
+	 navigator.accelerometer.clearWatch(_accelerometer);
+	 $('#accelerometer_watch_status').html('');
+	 $('#accelerometer_watch_word').html('');
 }
 </script>
 </html>
