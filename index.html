@@ -43,9 +43,11 @@ $(function(){
  */
 var _accelerometer;
 function watchStartAccelerometer(){
+alert('watchStartAccelerometer');
      _accelerometer = navigator.accelerometer.watchAcceleration(
         function(acceleration){
             // accelerometerSuccess
+alert('accelerometerSuccess');
             $('#accelerometer_watch_status').html(
                       'x:' + acceleration.x + "<br>" +
                       'y:' + acceleration.y + "<br>" +
