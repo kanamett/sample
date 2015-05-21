@@ -44,7 +44,11 @@ $(function(){
 var _accelerometer;
 function watchNowAccelerometer() {
 $('#message').html("watchNowAccelerometer");
+try{
 navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
+}catch( e ){
+alert( e );
+}
 }
 function watchStartAccelerometer(){
 $('#message').html("watchStartAccelerometer");
