@@ -44,7 +44,7 @@ $(function(){
 //			$('#accelerometer_now').attr('href', 'javascript:watchNowAccelerometer()');
 		},		false);
 $( '#c1' ).get( 0 ).width = $( window ).width();
-$( '#c1' ).get( 0 ).height = $( window ).height();
+$( '#c1' ).get( 0 ).height = $( window ).height() * 3 / 4;
 	var canvas = document.getElementById('c1');
 	if (canvas.getContext) {
 		orgx = canvas.width / 2;
@@ -68,10 +68,10 @@ $( '#c1' ).get( 0 ).height = $( window ).height();
 function watchAccelerometer() {
 	if (_watch) {
 		watchStopAccelerometer();
-		$('#accelerometer_watch').html('開始');
+		$('#accelerometer_watch .ui-btn-text').text("開始");
 	} else {
 		watchStartAccelerometer();
-		$('#accelerometer_watch').html('終了');
+		$('#accelerometer_watch .ui-btn-text').text("終了");
 	}
 	_watch = !_watch;
 }
