@@ -1,46 +1,127 @@
-<!DOCTYPE html>
-<!--
-    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
-
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
+<!DOCTYPE HTML>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="msapplication-tap-highlight" content="no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>PhoneGap</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
+<head>
+<title>PhoneGap Showcase</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
+<script src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+</head>
+<body>
+    <div data-role="page">
+        <div data-role="header">
+            <h1>Accelerometer Showcase</h1>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-    </body>
+        <div data-role="content">
+            <a id="accelerometer_watch" href="#" data-role="button">計測開始</a>
+            <div style="width:100%;height:150px;text-align:center;">
+                <div id="accelerometer_watch_word" style="line-height:150px;font-size:100px; "></div>
+            </div>
+
+            <div id="accelerometer_watch_status"></div>
+            <canvas id="c1" width="140" height="140"></canvas>
+
+            <a id="accelerometer_clear" href="#" data-role="button">計測終了</a>
+            <a id="accelerometer_now" href="#" data-role="button">今</a>
+	<div id="message">message</span>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+
+$(function(){
+	document.addEventListener("deviceready",
+		function(){
+			$('#accelerometer_watch').attr('href', 'javascript:watchStartAccelerometer()');
+			$('#accelerometer_clear').attr('href', 'javascript:watchStopAccelerometer()');
+			$('#accelerometer_now').attr('href', 'javascript:watchNowAccelerometer()');
+		},		false);
+})
+/*
+ * 加速度センサー計測開始
+ */
+var _accelerometer;
+var _x;
+var _y;
+var _z;
+var orgx = 70;
+var orgy = 70;
+var orgz = 60;
+function watchNowAccelerometer() {
+	$('#message').html("watchNowAccelerometer");
+	try{
+		navigator.accelerometer.getCurrentAcceleration(onSuccessFirst, onError);
+	}catch( e ){
+		alert( e );
+	}
+}
+function watchStartAccelerometer(){
+	watchNowAccelerometer();
+	$('#message').html("watchStartAccelerometer");
+	var options = { frequency: 1000 }; 
+	_accelerometer = navigator.accelerometer.watchAcceleration(onSuccess, onError,options);
+}
+function onSuccessFirst(acceleration) {
+	_x = acceleration.x;
+	_y = acceleration.y;
+	_z = acceleration.z;
+	draw(orgx, orgy, orgz);
+}
+function onSuccess(acceleration) { 
+	$('#message').html("onSuccess");
+	$('#accelerometer_watch_status').html(
+	  'x:' + acceleration.x + "<br>" +
+	  'y:' + acceleration.y + "<br>" +
+	  'z:' + acceleration.z + "<br>" +
+	  '日付:' + new Date(acceleration.timestamp).toString());
+  
+		if(Math.abs(acceleration.x)>9){
+			$('#accelerometer_watch_word').html("横")
+		}else if(Math.abs(acceleration.y)>9){
+			$('#accelerometer_watch_word').html("縦")
+		}else if(Math.abs(acceleration.z)>9){
+			$('#accelerometer_watch_word').html("水平")
+		}else{
+			 $('#accelerometer_watch_word').html("")
+	}
+	draw(orgx + (_x + acceleration.x), orgy + (_y + acceleration.y), orgz + (_z + acceleration.z));
+}
+function onError() { 
+	$('#message').html("onError");
+}
+/*
+ * 加速度センサー計測終了
+ */
+function watchStopAccelerometer(){
+	 navigator.accelerometer.clearWatch(_accelerometer);
+	 $('#accelerometer_watch_status').html('');
+	 $('#accelerometer_watch_word').html('');
+}
+
+function draw(x, y, radius) {
+  var canvas = document.getElementById('c1');
+
+  if (canvas.getContext) {
+    var ctx = canvas.getContext('2d');
+
+        ctx.beginPath();
+//        var x              = 25 + j * 50;             // x 座標
+//        var y              = 25 + i * 50;             // y 座標
+//        var radius         = 20;                      // 円弧の半径
+        var startAngle     = 0;                       // 円孤の始点
+        var endAngle       = Math.PI * 2;             // 円孤の終点
+        var anticlockwise  = true// 時計回りまたは半時計回り
+
+        ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+
+        if (i>1){
+          ctx.fill();
+        } else {
+          ctx.stroke();
+        }
+  }
+}</script>
 </html>
