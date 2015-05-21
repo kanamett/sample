@@ -21,7 +21,7 @@
             </div>
 
             <div id="accelerometer_watch_status"></div>
-            <canvas id="c1" width="100%" height="100%"></canvas>
+            <canvas id="c1" style="width:100%;height:200px;"></canvas>
 
             <a id="accelerometer_clear" href="#" data-role="button">計測終了</a>
             <a id="accelerometer_now" href="#" data-role="button">今</a>
@@ -100,7 +100,7 @@ function onSuccess(acceleration) {
 		}else{
 			 $('#accelerometer_watch_word').html("")
 	}
-	draw(orgx + (_x + acceleration.x), orgy + (_y + acceleration.y), orgz + (_z + acceleration.z));
+	draw(orgx + (_x - acceleration.x) * 10, orgy + (_y - acceleration.y) * 10, orgz + (_z - acceleration.z) * 10);
 }
 function onError() { 
 	$('#message').html("onError");
@@ -131,8 +131,8 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
 
         ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
 
-        ctx.fill();
-//        ctx.stroke();
+//        ctx.fill();
+        ctx.stroke();
   }
 }</script>
 </html>
