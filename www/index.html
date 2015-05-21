@@ -21,7 +21,7 @@
             </div>
 
             <div id="accelerometer_watch_status"></div>
-            <canvas id="c1" style="width:100%;height:200px;"></canvas>
+            <canvas id="c1" style="width:100%;"></canvas>
 
             <a id="accelerometer_clear" href="#" data-role="button">計測終了</a>
             <a id="accelerometer_now" href="#" data-role="button">今</a>
@@ -31,6 +31,13 @@
 </body>
 
 <script type="text/javascript">
+var _accelerometer;
+var _x;
+var _y;
+var _z;
+var orgx = 70;
+var orgy = 70;
+var orgz = 30;
 
 $(function(){
 	document.addEventListener("deviceready",
@@ -40,6 +47,13 @@ $(function(){
 			$('#accelerometer_now').attr('href', 'javascript:watchNowAccelerometer()');
 		},		false);
 
+	var canvas = document.getElementById('c1');
+	if (canvas.getContext) {
+		orgx = canvas.width / 2;
+		orgy = canvas.height / 2;
+		orgz = canvas.width / 4;
+	}
+	draw(orgx, orgy, orgz);
 //	var canvas = document.getElementById('c1');
 //	if (canvas.getContext) {
 //		var ctx = canvas.getContext('2d');
@@ -56,13 +70,6 @@ $(function(){
 /*
  * 加速度センサー計測開始
  */
-var _accelerometer;
-var _x;
-var _y;
-var _z;
-var orgx = 100;
-var orgy = 70;
-var orgz = 30;
 function watchNowAccelerometer() {
 	$('#message').html("watchNowAccelerometer");
 	try{
@@ -74,7 +81,7 @@ function watchNowAccelerometer() {
 function watchStartAccelerometer(){
 	watchNowAccelerometer();
 	$('#message').html("watchStartAccelerometer");
-	var options = { frequency: 1000 }; 
+	var options = { frequency: 100 }; 
 	_accelerometer = navigator.accelerometer.watchAcceleration(onSuccess, onError,options);
 }
 function onSuccessFirst(acceleration) {
