@@ -21,6 +21,8 @@
             </div>
             <div id="accelerometer_watch_status" style="height:100px;width:100px;background-color:#FF0000">a</div>
             <a id="accelerometer_clear" href="#" data-role="button">計測終了</a>
+            <div id="accelerometer_watch_status" style="height:100px;width:100px;background-color:#FF0000">a</div>
+            <a id="accelerometer_now" href="#" data-role="button">今</a>
 	<div id="message">message</span>
         </div>
     </div>
@@ -33,12 +35,17 @@ $(function(){
         function(){
             $('#accelerometer_watch').attr('href', 'javascript:watchStartAccelerometer()');
             $('#accelerometer_clear').attr('href', 'javascript:watchStopAccelerometer()');
+            $('#accelerometer_now').attr('href', 'javascript:watchNowAccelerometer()');
         },        false);
 })
 /*
  * 加速度センサー計測開始
  */
 var _accelerometer;
+function watchNowAccelerometer() {
+$('#message').html("watchNowAccelerometer");
+getCurrentAcceleration(onSuccess, onError);
+}
 function watchStartAccelerometer(){
 $('#message').html("watchStartAccelerometer");
 var options = { frequency: 1000 }; 
