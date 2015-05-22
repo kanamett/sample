@@ -131,28 +131,29 @@ function onSuccess(acceleration) {
 	}
 	orgx = orgx - ( acceleration.x * _speed );
 	orgy = orgy + ( acceleration.y * _speed );
-	orgz = orgz + ( acceleration.z * 5 );
+	orgz = orgz + ( acceleration.z / 2 );
 
 	var canvas = document.getElementById('c1');
 	if (canvas.getContext) {
 		var ctx = canvas.getContext('2d');
-		if (orgx < 0) {
-			orgx = 0;
-		}
-		if (orgy < 0) {
-			orgy = 0;
-		}
 		if (orgz < 0) {
 			orgz = 1;
 		}
+		if (orgz > 50) {
+			orgz = 50;
+		}
+
+		if (orgx - orgz < 0) {
+			orgx = orgz;
+		}
+		if (orgy - orgz < 0) {
+			orgy = orgz;
+		}
 		if (orgx > canvas.width) {
-			orgx = canvas.width;
+			orgx = canvas.width - orgz;
 		}
 		if (orgy > canvas.height) {
-			orgy = canvas.height;
-		}
-		if (orgz > 40) {
-			orgz = 40;
+			orgy = canvas.height - orgz;
 		}
 	}
 	draw( orgx,  orgy, orgz );
