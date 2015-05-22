@@ -33,11 +33,11 @@ var _accelerometer;
 var _x;
 var _y;
 var _z;
-var orgx = 70;
-var orgy = 70;
-var orgz = 30;
+var orgx;
+var orgy;
+var orgz;
 var _watch = false;
-var _speed = 30;
+var _speed = 20;
 
 $(function(){
 	document.addEventListener("deviceready",
@@ -52,9 +52,10 @@ $( '#c1' ).get( 0 ).height = $( window ).height() * 3 / 5;
 	if (canvas.getContext) {
 		orgx = canvas.width / 2;
 		orgy = canvas.height / 2;
-		orgz = canvas.width / 4;
+//		orgz = canvas.width / 4;
+		orgz = 10;
 	}
-	_speed = $( window ).width() / 20;
+//	_speed = $( window ).width() / 20;
 //	draw(orgx, orgy, orgz);
 //	var canvas = document.getElementById('c1');
 //	if (canvas.getContext) {
@@ -128,7 +129,30 @@ function onSuccess(acceleration) {
 		}else{
 			 $('#accelerometer_watch_word').html("")
 	}
-	draw( orgx - ( acceleration.x * _speed ), orgy + ( acceleration.y * _speed ) , orgz + ( acceleration.z * _speed ) );
+	orgx = orgx - ( acceleration.x * _speed );
+	orgy = orgy + ( acceleration.y * _speed );
+	orgz = orgz + ( acceleration.z * 5 );
+
+	var canvas = document.getElementById('c1');
+	if (canvas.getContext) {
+		var ctx = canvas.getContext('2d');
+		if (orgx < 0) {
+			orgx = 0;
+		}
+		if (orgy < 0) {
+			orgy = 0;
+		}
+		if (orgz < 0) {
+			orgz = 1;
+		}
+		if (orgx > canvas.width) {
+			orgx = canvas.width;
+		}
+		if (orgy > canvas.height) {
+			orgy = canvas.height;
+		}
+	}
+	draw( orgx,  orgy, orgz );
 }
 
 /*
