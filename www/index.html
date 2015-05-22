@@ -55,7 +55,7 @@ $( '#c1' ).get( 0 ).height = $( window ).height() * 3 / 5;
 //		orgz = canvas.width / 4;
 		orgz = 10;
 	}
-//	_speed = $( window ).width() / 20;
+	_speed = $( window ).width() / 20;
 //	draw(orgx, orgy, orgz);
 //	var canvas = document.getElementById('c1');
 //	if (canvas.getContext) {
@@ -114,7 +114,7 @@ function onSuccessFirst(acceleration) {
 	_z = acceleration.z;
 	draw(orgx, orgy, orgz);
 }
-/*
+
 function onSuccess(acceleration) { 
 	$('#accelerometer_watch_status').html(
 	  'x:' + acceleration.x + "<br>" +
@@ -137,8 +137,8 @@ function onSuccess(acceleration) {
 
 	draw( orgx,  orgy, orgz );
 }
-*/
 
+/*
 function onSuccess(acceleration) { 
 //	$('#message').html("onSuccess");
 	$('#accelerometer_watch_status').html(
@@ -193,7 +193,7 @@ function onSuccess(acceleration) {
 	}
 	draw(orgx + movex, orgy + movey, orgz + ( movez / 5 ));
 }
-
+*/
 
 
 function draw(x, y, radius) {
