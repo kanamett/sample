@@ -12,8 +12,10 @@
 <body>
     <div data-role="page">
         <div data-role="content">
+<!--
 			<input type="checkbox" name="type1" id="check1" value="1">
 			<label for="check1">加速</label>
+-->
             <a id="accelerometer_watch" href="#" data-role="button">開始</a>
 
             <div id="accelerometer_watch_status"></div>
@@ -90,11 +92,12 @@ function watchNowAccelerometer() {
 }
 function watchStartAccelerometer(){
 	watchNowAccelerometer();
-	if ( $( '#check1' ).prop('checked') ) {
-		$('#message').html("watchStartAccelerometer(加速)");
-	} else {
-		$('#message').html("watchStartAccelerometer(普通)");
-	}
+//	if ( $( '#check1' ).prop('checked') ) {
+//		$('#message').html("watchStartAccelerometer(加速)");
+//	} else {
+//		$('#message').html("watchStartAccelerometer(普通)");
+//	}
+	$('#message').html("watchStartAccelerometer");
 	var options = { frequency: 100 }; 
 	_accelerometer = navigator.accelerometer.watchAcceleration(onSuccess, onError,options);
 }
@@ -136,8 +139,8 @@ function onSuccess(acceleration) {
 	var canvas = document.getElementById('c1');
 	if (canvas.getContext) {
 		var ctx = canvas.getContext('2d');
-		if (orgz < 0) {
-			orgz = 1;
+		if (orgz < 5) {
+			orgz = 5;
 		}
 		if (orgz > 50) {
 			orgz = 50;
@@ -149,10 +152,10 @@ function onSuccess(acceleration) {
 		if (orgy - orgz < 0) {
 			orgy = orgz;
 		}
-		if (orgx > canvas.width) {
+		if (orgx + orgz > canvas.width) {
 			orgx = canvas.width - orgz;
 		}
-		if (orgy > canvas.height) {
+		if (orgy + orgz > canvas.height) {
 			orgy = canvas.height - orgz;
 		}
 	}
