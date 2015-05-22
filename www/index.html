@@ -262,11 +262,19 @@ function draw(x, y, radius) {
 		ctx.lineTo(x + headingx, y + headingy);
 		ctx.stroke();
 
+//		ctx.beginPath();
+//		ctx.strokeStyle = "rgb(0, 0, 255)";
+//		ctx.moveTo(x, y);
+//		var headingx2 = Math.sin(_magneticHeading / 360 * Math.PI * 2) * radius * -1;
+//		var headingy2 = Math.cos(_magneticHeading / 360 * Math.PI * 2) * radius * -1;
+//		ctx.lineTo(x + headingx2, y + headingy2);
+//		ctx.stroke();
+
 		ctx.beginPath();
 		ctx.strokeStyle = "rgb(0, 0, 255)";
 		ctx.moveTo(x, y);
-		var headingx2 = Math.sin(_magneticHeading / 360 * Math.PI * 2) * radius * -1;
-		var headingy2 = Math.cos(_magneticHeading / 360 * Math.PI * 2) * radius * -1;
+		var headingx2 = Math.sin(0 / 360 * Math.PI * 2) * radius * -1;
+		var headingy2 = Math.cos(0 / 360 * Math.PI * 2) * radius * -1;
 		ctx.lineTo(x + headingx2, y + headingy2);
 		ctx.stroke();
 	}
