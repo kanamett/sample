@@ -37,7 +37,7 @@ var orgx = 70;
 var orgy = 70;
 var orgz = 30;
 var _watch = false;
-var _speed = 50;
+var _speed = 30;
 
 $(function(){
 	document.addEventListener("deviceready",
@@ -122,6 +122,10 @@ function onSuccess(acceleration) {
 	var movey = _y - acceleration.y;
 	var movez = _z - acceleration.z;
 	if ( $( '#check1' ).prop('checked') ) {
+		movex = movex * _speed;
+		movey = movey * _speed;
+		movez = movez * _speed;
+
 		var workx = Math.pow(movex, 2);
 		var worky = Math.pow(movey, 2);
 		var workz = Math.pow(movez, 2);
@@ -165,7 +169,7 @@ function draw(x, y, radius) {
 
   if (canvas.getContext) {
     var ctx = canvas.getContext('2d');
-//		ctx.clearRect(0,0,canvas.width,canvas.height);
+		ctx.clearRect(0,0,canvas.width,canvas.height);
 
         ctx.beginPath();
 //        var x              = 25 + j * 50;             // x 座標
