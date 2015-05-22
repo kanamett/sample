@@ -91,7 +91,11 @@ function watchNowAccelerometer() {
 }
 function watchStartAccelerometer(){
 	watchNowAccelerometer();
-	$('#message').html("watchStartAccelerometer");
+	if ( $( '#check1' ).prop('checked') ) {
+		$('#message').html("watchStartAccelerometer(加速)");
+	} else {
+		$('#message').html("watchStartAccelerometer(普通)");
+	}
 	var options = { frequency: 100 }; 
 	_accelerometer = navigator.accelerometer.watchAcceleration(onSuccess, onError,options);
 }
