@@ -129,6 +129,7 @@ function onSuccessAccelerometer(acceleration) {
 	  'x:' + acceleration.x + "<br>" +
 	  'y:' + acceleration.y + "<br>" +
 	  'z:' + acceleration.z + "<br>" +
+	  'compas:' + _heading + "<br>" +
 	  '日付:' + new Date(acceleration.timestamp).toString());
   
 		if(Math.abs(acceleration.x)>9){
