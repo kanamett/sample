@@ -136,7 +136,7 @@ function draw(x, y, radius) {
 
   if (canvas.getContext) {
     var ctx = canvas.getContext('2d');
-ctx.clearRect(0,0,canvas.width,canvas.height);
+//		ctx.clearRect(0,0,canvas.width,canvas.height);
 
         ctx.beginPath();
 //        var x              = 25 + j * 50;             // x 座標
@@ -147,7 +147,7 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
         var anticlockwise  = true// 時計回りまたは半時計回り
 
         ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
-//		ctx.strokeStyle = "rgb(255, 0, 0)";
+		ctx.strokeStyle = "rgb(255, 0, 0)";
 
 //        ctx.fill();
         ctx.stroke();
