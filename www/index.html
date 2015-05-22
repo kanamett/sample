@@ -126,7 +126,7 @@ function onSuccessAccelerometerFirst(acceleration) {
 function onSuccessCompass(heading) {
 	_trueHeading = heading.trueHeading;
 	_trueHeading2 = 360 - _trueHeading;
-	_magneticHeading = heading.magneticHeading
+	_magneticHeading = heading.magneticHeading;
 }
 function onSuccessAccelerometer(acceleration) { 
 	$('#accelerometer_watch_status').html(
