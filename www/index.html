@@ -34,8 +34,9 @@
 var _accelerometer;
 var _compass;
 
-var _heading;
-var _heading2;
+var _trueHeading;
+var _trueHeading2;
+var _magneticHeading;
 var _x;
 var _y;
 var _z;
@@ -123,15 +124,17 @@ function onSuccessAccelerometerFirst(acceleration) {
 	draw(orgx, orgy, orgz);
 }
 function onSuccessCompass(heading) {
-	_heading = heading.trueHeading;
-	_heading2 = 360 - _heading;
+	_trueHeading = heading.trueHeading;
+	_trueHeading2 = 360 - _trueHeading;
+	_magneticHeading = heading.magneticHeading
 }
 function onSuccessAccelerometer(acceleration) { 
 	$('#accelerometer_watch_status').html(
 	  'x:' + acceleration.x + "<br>" +
 	  'y:' + acceleration.y + "<br>" +
 	  'z:' + acceleration.z + "<br>" +
-	  'compas:' + _heading + "<br>" +
+	  'compas(true):' + _trueHeading + "<br>" +
+	  'compas(magnet):' + _magneticHeading + "<br>" +
 	  '日付:' + new Date(acceleration.timestamp).toString());
   
 		if(Math.abs(acceleration.x)>9){
@@ -232,37 +235,40 @@ function onSuccessAccelerometer(acceleration) {
 
 
 function draw(x, y, radius) {
-  var canvas = document.getElementById('c1');
+	var canvas = document.getElementById('c1');
 
-  if (canvas.getContext) {
-    var ctx = canvas.getContext('2d');
+	if (canvas.getContext) {
+		var ctx = canvas.getContext('2d');
 		ctx.clearRect(0,0,canvas.width,canvas.height);
 
-        ctx.beginPath();
-//        var x              = 25 + j * 50;             // x 座標
-//        var y              = 25 + i * 50;             // y 座標
-//        var radius         = 20;                      // 円弧の半径
-        var startAngle     = 0;                       // 円孤の始点
-        var endAngle       = Math.PI * 2;             // 円孤の終点
-        var anticlockwise  = true// 時計回りまたは半時計回り
+//		var x              = 25 + j * 50;             // x 座標
+//		var y              = 25 + i * 50;             // y 座標
+//		var radius         = 20;                      // 円弧の半径
+		var startAngle     = 0;                       // 円孤の始点
+		var endAngle       = Math.PI * 2;             // 円孤の終点
+		var anticlockwise  = true// 時計回りまたは半時計回り
 
-        ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+		ctx.beginPath();
 		ctx.strokeStyle = "rgb(255, 0, 0)";
+		ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+//		ctx.fill();
+		ctx.stroke();
 
-//        ctx.fill();
-        ctx.stroke();
+		ctx.beginPath();
+		ctx.strokeStyle = "rgb(0, 255, 0)";
+		ctx.moveTo(x, y);
+		var headingx = Math.sin(_trueHeading / 360 * Math.PI * 2) * radius * -1;
+		var headingy = Math.cos(_trueHeading / 360 * Math.PI * 2) * radius * -1;
+		ctx.lineTo(x + headingx, y + headingy);
+		ctx.stroke();
 
-    ctx.moveTo(x, y);
-    var headingx = Math.sin(_heading / 360 * Math.PI * 2) * radius * -1;
-    var headingy = Math.cos(_heading / 360 * Math.PI * 2) * radius * -1;
-    ctx.lineTo(x + headingx, y + headingy);
-    ctx.stroke();
-
-    var headingx2 = Math.sin(_heading2 / 360 * Math.PI * 2) * radius * -1;
-    var headingy2 = Math.cos(_heading2 / 360 * Math.PI * 2) * radius * -1;
-    ctx.lineTo(x + headingx2, y + headingy2);
-    ctx.stroke();
-
-  }
+		ctx.beginPath();
+		ctx.strokeStyle = "rgb(0, 0, 255)";
+		ctx.moveTo(x, y);
+		var headingx2 = Math.sin(_magneticHeading / 360 * Math.PI * 2) * radius * -1;
+		var headingy2 = Math.cos(_magneticHeading / 360 * Math.PI * 2) * radius * -1;
+		ctx.lineTo(x + headingx2, y + headingy2);
+		ctx.stroke();
+	}
 }</script>
 </html>
