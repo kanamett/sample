@@ -116,7 +116,6 @@ function onSuccessFirst(acceleration) {
 	_z = acceleration.z;
 	draw(orgx, orgy, orgz);
 }
-
 function onSuccess(acceleration) { 
 	$('#accelerometer_watch_status').html(
 	  'x:' + acceleration.x + "<br>" +
@@ -137,6 +136,29 @@ function onSuccess(acceleration) {
 	orgy = orgy + ( acceleration.y * _speed );
 	orgz = orgz + ( acceleration.z / 2 );
 
+	var canvas = document.getElementById('c1');
+	if (canvas.getContext) {
+		var ctx = canvas.getContext('2d');
+		if (orgz < 5) {
+			orgz = 5;
+		}
+		if (orgz > 50) {
+			orgz = 50;
+		}
+
+		if (orgx - orgz < 0) {
+			orgx = orgz;
+		}
+		if (orgy - orgz < 0) {
+			orgy = orgz;
+		}
+		if (orgx + orgz > canvas.width) {
+			orgx = canvas.width - orgz;
+		}
+		if (orgy + orgz > canvas.height) {
+			orgy = canvas.height - orgz;
+		}
+	}
 	draw( orgx,  orgy, orgz );
 }
 
@@ -193,7 +215,7 @@ function onSuccess(acceleration) {
 		movey = movey * _speed;
 		movez = movez * _speed;
 	}
-	draw(orgx + movex, orgy + movey, orgz + ( movez / 5 ));
+	draw(orgx + movex, orgy + movey, orgz + movez);
 }
 */
 
@@ -203,26 +225,6 @@ function draw(x, y, radius) {
 
   if (canvas.getContext) {
     var ctx = canvas.getContext('2d');
-		if (radius < 5) {
-			radius = 5;
-		}
-		if (radius > 50) {
-			radius = 50;
-		}
-
-		if (x - radius < 0) {
-			x = radius;
-		}
-		if (y - radius < 0) {
-			y = radius;
-		}
-		if (x + radius > canvas.width) {
-			x = canvas.width - radius;
-		}
-		if (y + radius > canvas.height) {
-			y = canvas.height - radius;
-		}
-
 		ctx.clearRect(0,0,canvas.width,canvas.height);
 
         ctx.beginPath();
