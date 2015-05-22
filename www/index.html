@@ -12,6 +12,8 @@
 <body>
     <div data-role="page">
         <div data-role="content">
+			<input type="checkbox" name="type1" id="check1" value="1">
+			<label for="check1">加速</label>
             <a id="accelerometer_watch" href="#" data-role="button">開始</a>
 
             <div id="accelerometer_watch_status"></div>
@@ -44,7 +46,7 @@ $(function(){
 //			$('#accelerometer_clear').attr('href', 'javascript:watchStopAccelerometer()');
 //			$('#accelerometer_now').attr('href', 'javascript:watchNowAccelerometer()');
 		},		false);
-$( '#c1' ).get( 0 ).width = $( window ).width();
+$( '#c1' ).get( 0 ).width = $( window ).width() * 0.9;
 $( '#c1' ).get( 0 ).height = $( window ).height() * 3 / 5;
 	var canvas = document.getElementById('c1');
 	if (canvas.getContext) {
@@ -116,9 +118,36 @@ function onSuccess(acceleration) {
 		}else{
 			 $('#accelerometer_watch_word').html("")
 	}
-	draw(orgx + (_x - acceleration.x) * _speed, orgy + (_y - acceleration.y) * _speed, orgz + (_z - acceleration.z) * _speed);
+	var movex = _x - acceleration.x;
+	var movey = _y - acceleration.y;
+	var movez = _z - acceleration.z;
+	if ( $( '#check1' ).prop('checked') ) {
+		var workx = Math.pow(movex, 2);
+		var worky = Math.pow(movey, 2);
+		var workz = Math.pow(movez, 2);
+		if ( movex < 0 ) {
+			movex = workx * -1;
+		} else {
+			movex = workx;
+		}
+		if ( movey < 0 ) {
+			movey = worky * -1;
+		} else {
+			movey = worky;
+		}
+		if ( movez < 0 ) {
+			movez = workz * -1;
+		} else {
+			movez = workz;
+		}
+	} else {
+		movex = movex * _speed;
+		movey = movey * _speed;
+		movez = movez * _speed;
+	}
+	draw(orgx + movex, orgy + movey, orgz + movez);
 }
-function onError() { 
+function onError() {
 	$('#message').html("onError");
 }
 /*
