@@ -144,6 +144,10 @@ function onSuccess(acceleration) {
 		} else {
 			movez = workz;
 		}
+
+		movex = movex / _speed;
+		movey = movey / _speed;
+		movez = movez / _speed;
 	} else {
 		movex = movex * _speed;
 		movey = movey * _speed;
