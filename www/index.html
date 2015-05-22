@@ -54,6 +54,7 @@ $( '#c1' ).get( 0 ).height = $( window ).height() * 3 / 5;
 		orgy = canvas.height / 2;
 		orgz = canvas.width / 4;
 	}
+	_speed = $( window ).width() / 20;
 //	draw(orgx, orgy, orgz);
 //	var canvas = document.getElementById('c1');
 //	if (canvas.getContext) {
@@ -127,7 +128,7 @@ function onSuccess(acceleration) {
 		}else{
 			 $('#accelerometer_watch_word').html("")
 	}
-	draw(orgx - acceleration.x, orgy + acceleration.y, orgz + acceleration.z);
+	draw( orgx - ( acceleration.x * _speed ), orgy + ( acceleration.y * _speed ) , orgz + ( acceleration.z * _speed ) );
 }
 
 /*
