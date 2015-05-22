@@ -78,9 +78,6 @@ function watchAccelerometer() {
 	}
 	_watch = !_watch;
 }
-/*
- * 加速度センサー計測開始
- */
 function watchNowAccelerometer() {
 	$('#message').html("watchNowAccelerometer");
 	try{
@@ -99,12 +96,41 @@ function watchStartAccelerometer(){
 	var options = { frequency: 100 }; 
 	_accelerometer = navigator.accelerometer.watchAcceleration(onSuccess, onError,options);
 }
+function watchStopAccelerometer(){
+	$('#message').html("watchStopAccelerometer");
+	 navigator.accelerometer.clearWatch(_accelerometer);
+	 $('#accelerometer_watch_status').html('');
+//	 $('#accelerometer_watch_word').html('');
+}
+function onError() {
+	$('#message').html("onError");
+}
 function onSuccessFirst(acceleration) {
 	_x = acceleration.x;
 	_y = acceleration.y;
 	_z = acceleration.z;
 	draw(orgx, orgy, orgz);
 }
+function onSuccess(acceleration) { 
+	$('#accelerometer_watch_status').html(
+	  'x:' + acceleration.x + "<br>" +
+	  'y:' + acceleration.y + "<br>" +
+	  'z:' + acceleration.z + "<br>" +
+	  '日付:' + new Date(acceleration.timestamp).toString());
+  
+		if(Math.abs(acceleration.x)>9){
+			$('#accelerometer_watch_word').html("横")
+		}else if(Math.abs(acceleration.y)>9){
+			$('#accelerometer_watch_word').html("縦")
+		}else if(Math.abs(acceleration.z)>9){
+			$('#accelerometer_watch_word').html("水平")
+		}else{
+			 $('#accelerometer_watch_word').html("")
+	}
+	draw(orgx - acceleration.x, orgy + acceleration.y, orgz + acceleration.z);
+}
+
+/*
 function onSuccess(acceleration) { 
 //	$('#message').html("onSuccess");
 	$('#accelerometer_watch_status').html(
@@ -159,18 +185,8 @@ function onSuccess(acceleration) {
 	}
 	draw(orgx + movex, orgy + movey, orgz + movez);
 }
-function onError() {
-	$('#message').html("onError");
-}
-/*
- * 加速度センサー計測終了
- */
-function watchStopAccelerometer(){
-	$('#message').html("watchStopAccelerometer");
-	 navigator.accelerometer.clearWatch(_accelerometer);
-	 $('#accelerometer_watch_status').html('');
-//	 $('#accelerometer_watch_word').html('');
-}
+*/
+
 
 function draw(x, y, radius) {
   var canvas = document.getElementById('c1');
