@@ -32,6 +32,9 @@
 
 <script type="text/javascript">
 var _accelerometer;
+var _compass;
+
+var _heading;
 var _x;
 var _y;
 var _z;
@@ -85,7 +88,7 @@ function watchAccelerometer() {
 function watchNowAccelerometer() {
 	$('#message').html("watchNowAccelerometer");
 	try{
-		navigator.accelerometer.getCurrentAcceleration(onSuccessFirst, onError);
+		navigator.accelerometer.getCurrentAcceleration(onSuccessAccelerometerFirst, onError);
 	}catch( e ){
 		alert( e );
 	}
@@ -99,24 +102,29 @@ function watchStartAccelerometer(){
 //	}
 	$('#message').html("watchStartAccelerometer");
 	var options = { frequency: 100 }; 
-	_accelerometer = navigator.accelerometer.watchAcceleration(onSuccess, onError,options);
+	_accelerometer = navigator.accelerometer.watchAcceleration(onSuccessAccelerometer, onError,options);
+	_compass = navigator.compass.watchHeading(onSuccessCompass, onError,options);
 }
 function watchStopAccelerometer(){
 	$('#message').html("watchStopAccelerometer");
 	 navigator.accelerometer.clearWatch(_accelerometer);
+	 navigator.compass.clearWatch(_compass);
 	 $('#accelerometer_watch_status').html('');
 //	 $('#accelerometer_watch_word').html('');
 }
 function onError() {
 	$('#message').html("onError");
 }
-function onSuccessFirst(acceleration) {
+function onSuccessAccelerometerFirst(acceleration) {
 	_x = acceleration.x;
 	_y = acceleration.y;
 	_z = acceleration.z;
 	draw(orgx, orgy, orgz);
 }
-function onSuccess(acceleration) { 
+function onSuccessCompass(heading) {
+	_heading = heading.trueHeading
+}
+function onSuccessAccelerometer(acceleration) { 
 	$('#accelerometer_watch_status').html(
 	  'x:' + acceleration.x + "<br>" +
 	  'y:' + acceleration.y + "<br>" +
@@ -163,8 +171,8 @@ function onSuccess(acceleration) {
 }
 
 /*
-function onSuccess(acceleration) { 
-//	$('#message').html("onSuccess");
+function onSuccessAccelerometer(acceleration) { 
+//	$('#message').html("onSuccessAccelerometer");
 	$('#accelerometer_watch_status').html(
 	  'x:' + acceleration.x + "<br>" +
 	  'y:' + acceleration.y + "<br>" +
@@ -240,6 +248,15 @@ function draw(x, y, radius) {
 
 //        ctx.fill();
         ctx.stroke();
+
+	ctx.strokeStyle = "rgb(0, 255, 0)";
+    ctx.moveTo(x, y);
+    var headingx = Math.sin(_heading / 360 * Math.PI * 2) * radius * -1;
+    var headingy = Math.cos(_heading / 360 * Math.PI * 2) * radius * -1;
+    ctx.lineTo(x + headingx, y + headingy);
+    ctx.stroke();
+
+
   }
 }</script>
 </html>
